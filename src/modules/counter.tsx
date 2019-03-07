@@ -3,12 +3,8 @@ import { createAction, ActionType, getType } from 'typesafe-actions'
 const INCREMENT = 'INCREMENT';
 const DECREMENT = 'DECREMENT';
 
-export const increment = createAction(INCREMENT, action => {
-  return (state: TCounterState) => action(state)
-});
-export const decrement = createAction(DECREMENT, action => {
-  return (state: TCounterState) => action(state)
-});
+export const increment = createAction(INCREMENT);
+export const decrement = createAction(DECREMENT);
 
 export type TCounterState = number;
 export type TCounterActions = ActionType<typeof increment | typeof decrement>
