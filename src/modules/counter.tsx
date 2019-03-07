@@ -1,4 +1,5 @@
 import { createAction, ActionType, getType } from 'typesafe-actions'
+import { Dispatch, AnyAction } from 'redux';
 
 const INCREMENT = 'INCREMENT';
 const DECREMENT = 'DECREMENT';
@@ -9,6 +10,24 @@ export const increment = createAction(INCREMENT);
 export const decrement = createAction(DECREMENT);
 
 export type TCounterActions = ActionType<typeof increment | typeof decrement>
+
+/*
+export const incrementAsync = () => (dispatch: Dispatch<TCounterActions>) => {
+  // 1초 뒤 액션 디스패치
+  setTimeout(
+    () => { dispatch(increment()) },
+    1000
+  )
+}
+
+export const decrementAsync = () => (dispatch: Dispatch<TCounterActions>) => {
+  // 1초 뒤 액션 디스패치
+  setTimeout(
+    () => { dispatch(decrement()) },
+    1000
+  )
+}
+*/
 
 const initialState: TCounterState = 0
 
