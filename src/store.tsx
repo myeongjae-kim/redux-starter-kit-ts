@@ -2,7 +2,9 @@ import { createStore, applyMiddleware } from 'redux'
 import modules from './modules/index'
 
 import { createLogger } from 'redux-logger';
-import ReduxThunk from 'redux-thunk'
+// import ReduxThunk from 'redux-thunk'
+
+import { createPromise } from 'redux-promise-middleware';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -12,6 +14,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // 로그 미들웨어를 만들 때 설정을 커스터마이징 할 수 있습니다.
 // https://github.com/evgenyrodionov/redux-logger#options
 
-const store = createStore(modules, composeWithDevTools(applyMiddleware(createLogger(), ReduxThunk)));
+const logger = createLogger();
+const pm = createPromise({
+  promiseTypeSuffixes: ['PENDING', 'SUCCESS', 'FAILURE']
+})
+
+const store = createStore(modules, composeWithDevTools(applyMiddleware(logger, pm)));
 
 export default store;
