@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, SyntheticEvent } from 'react';
+import { connect } from 'react-redux'
 
-class App extends Component {
+import * as counterActions from './modules/counter'
+import { TCombinedStates } from './modules';
+import { Dispatch } from 'redux';
+
+export interface ICounterActions {
+  readonly increment: (number: number) => void
+  readonly decrement: (number: number) => void
+}
+
+export interface IAppProps {
+  readonly number: number
+  readonly CounterActions: ICounterActions
+}
+
+class App extends Component<IAppProps> {
   render() {
+    const { CounterActions, number } = this.props
+
+    const handleIncrement = (e: SyntheticEvent) => {
+      CounterActions.increment(number);
+    }
+
+    const handleDecrement = (e: SyntheticEvent) => {
+      CounterActions.decrement(number)
+    }
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <h1>{number}</h1>
+        <button onClick={handleIncrement}>+</button>
+        <button onClick={handleDecrement}>-</button>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state: TCombinedStates) => ({ number: state.counter })
+const mapDispatchToProps = (dispatch: Dispatch<counterActions.TCounterActions>) => ({
+  CounterActions: {
+    increment: (number: number) => dispatch(counterActions.increment(number)),
+    decrement: (number: number) => dispatch(counterActions.decrement(number))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
