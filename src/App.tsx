@@ -3,18 +3,11 @@ import { connect } from 'react-redux'
 
 import * as counterActions from './modules/counter'
 import { TCombinedStates } from './modules';
-import { Dispatch } from 'redux';
-
-export interface ICounterActions {
-  readonly increment: () => void
-  readonly decrement: () => void
-  readonly incrementAsync: () => void
-  readonly decrementAsync: () => void
-}
+import { Dispatch, bindActionCreators } from 'redux';
 
 export interface IAppProps {
   readonly number: number
-  readonly CounterActions: ICounterActions
+  readonly CounterActions: typeof counterActions
 }
 
 class App extends Component<IAppProps> {
@@ -33,24 +26,7 @@ class App extends Component<IAppProps> {
 
 const mapStateToProps = (state: TCombinedStates) => ({ number: state.counter })
 const mapDispatchToProps = (dispatch: Dispatch<counterActions.TCounterActions>) => ({
-  CounterActions: {
-    increment: () => dispatch(counterActions.increment()),
-    decrement: () => dispatch(counterActions.decrement()),
-    incrementAsync: () => {
-      //1초 뒤 액션 디스패치
-      setTimeout(
-        () => { dispatch(counterActions.increment()) },
-        1000
-      );
-    },
-    decrementAsync: () => {
-      //1초 뒤 액션 디스패치
-      setTimeout(
-        () => { dispatch(counterActions.decrement()) },
-        1000
-      );
-    }
-  }
+  CounterActions: bindActionCreators(counterActions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

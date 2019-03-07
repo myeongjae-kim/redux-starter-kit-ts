@@ -11,7 +11,6 @@ export const decrement = createAction(DECREMENT);
 
 export type TCounterActions = ActionType<typeof increment | typeof decrement>
 
-/*
 export const incrementAsync = () => (dispatch: Dispatch<TCounterActions>) => {
   // 1초 뒤 액션 디스패치
   setTimeout(
@@ -27,7 +26,6 @@ export const decrementAsync = () => (dispatch: Dispatch<TCounterActions>) => {
     1000
   )
 }
-*/
 
 const initialState: TCounterState = 0
 
